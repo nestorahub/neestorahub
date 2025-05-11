@@ -1,0 +1,14 @@
+{
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ],
+    "functions": {
+        "server.js": {
+            "memory": 128,
+            "maxDuration": 10
+        }
+    }
+}
