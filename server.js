@@ -4,22 +4,27 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from the root folder
+app.use(express.static(__dirname));
 
+// Route for the homepage
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Route for carpets page
 app.get('/carpets', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'carpets.html'));
+    res.sendFile(path.join(__dirname, 'carpets.html'));
 });
 
+// Route for services page
 app.get('/services', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'services.html'));
+    res.sendFile(path.join(__dirname, 'services.html'));
 });
 
+// Catch-all route to redirect to index.html for undefined routes
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(port, '0.0.0.0', () => {
