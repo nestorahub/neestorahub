@@ -1,94 +1,148 @@
 // script.js
 
-// Mobile Menu Toggle (already working, included for completeness)
+// Mobile Menu Toggle
 const hamburger = document.querySelector('.hamburger');
 const mobileNav = document.querySelector('.mobile-nav');
 
-if (hamburger && mobileNav) {
-  hamburger.addEventListener('click', (e) => {
+hamburger.addEventListener('click', (e) => {
     e.stopPropagation();
     mobileNav.classList.toggle('open');
-  });
+});
 
-  document.addEventListener('click', (e) => {
+document.addEventListener('click', (e) => {
     if (mobileNav.classList.contains('open') && 
         !mobileNav.contains(e.target) && 
         !hamburger.contains(e.target)) {
-      mobileNav.classList.remove('open');
+        mobileNav.classList.remove('open');
     }
-  });
-} else {
-  console.error('Hamburger or mobile-nav not found in the DOM');
-}
+});
 
-// Homepage Slideshow Functionality
-const slides = document.querySelectorAll('#slideshow .slide');
-const prevSlideBtn = document.querySelector('.prev-slide-btn');
-const nextSlideBtn = document.querySelector('.next-slide-btn');
-let currentSlideIndex = 0;
-let slideInterval;
+// Slideshow Functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('#slideshow .slide');
+    const prevBtn = document.querySelector('.prev-slide-btn');
+    const nextBtn = document.querySelector('.next-slide-btn');
+    let currentSlide = 0;
 
-// Debugging: Log if elements are found
-if (!slides.length) {
-  console.error('No slides found in #slideshow. Check .slide elements in HTML.');
-}
-if (!prevSlideBtn) {
-  console.warn('Previous slide button not found. Manual navigation may be disabled.');
-}
-if (!nextSlideBtn) {
-  console.warn('Next slide button not found. Manual navigation may be disabled.');
-}
-
-// Function to show a specific slide
-function showSlide(index) {
-  if (slides.length === 0) return;
-  slides.forEach((slide, i) => {
-    slide.classList.remove('active');
-    if (i === index) {
-      slide.classList.add('active');
-      console.log(`Showing slide ${i}`); // Debug: Confirm slide change
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.opacity = i === index ? '1' : '0';
+        });
     }
+
+    // Initial display
+    showSlide(currentSlide);
+
+    prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    });
+
+    nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    });
+
+    // Auto-advance every 5 seconds
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }, 5000);
+});
+
+// Testimonial Slideshow
+document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.testimonial-slide');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.display = i === index ? 'block' : 'none';
+        });
+    }
+
+    // Show the first slide initially
+    showSlide(currentSlide);
+
+    prevBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    });
+
+    // Auto-slide every 5 seconds
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }, 5000);
+});
+
+// FAQ Toggle
+document.addEventListener('DOMContentLoaded', () => {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            faqItems.forEach(i => i.classList.remove('active'));
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        });
+    });
+});function vibrateButtons() {
+  document.querySelectorAll('.float-btn').forEach(btn => {
+    btn.classList.add('vibrate');
+    setTimeout(() => btn.classList.remove('vibrate'), 800); // strong visible shake
   });
-  currentSlideIndex = index;
 }
 
-// Function to start automatic slideshow
-function startSlideshow() {
-  slideInterval = setInterval(() => {
-    currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-    showSlide(currentSlideIndex);
-  }, 5000); // Change slide every 5 seconds
-}
+// Repeat every 5 seconds
+setInterval(vibrateButtons, 5000);
+document.addEventListener("DOMContentLoaded", function () {
+  const galleryItems = document.querySelectorAll(".gallery-item img");
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const closeBtn = document.getElementById("lightbox-close");
+  const prevBtn = document.getElementById("lightbox-prev");
+  const nextBtn = document.getElementById("lightbox-next");
 
-// Function to stop automatic slideshow (e.g., when user interacts)
-function stopSlideshow() {
-  clearInterval(slideInterval);
-}
+  let currentIndex = 0;
 
-// Initialize first slide and start slideshow
-if (slides.length > 0) {
-  showSlide(currentSlideIndex);
-  startSlideshow();
-}
+  function showLightbox(index) {
+    currentIndex = index;
+    lightbox.style.display = "flex";
+    lightboxImg.src = galleryItems[index].src;
+  }
 
-// Previous button click (if buttons exist)
-if (prevSlideBtn) {
-  prevSlideBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    stopSlideshow(); // Stop auto-slideshow on user interaction
-    currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
-    showSlide(currentSlideIndex);
-    console.log('Previous slide button clicked, current slide:', currentSlideIndex);
+  function closeLightbox() {
+    lightbox.style.display = "none";
+  }
+
+  function showNextImage() {
+    currentIndex = (currentIndex + 1) % galleryItems.length;
+    lightboxImg.src = galleryItems[currentIndex].src;
+  }
+
+  function showPrevImage() {
+    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+    lightboxImg.src = galleryItems[currentIndex].src;
+  }
+
+  galleryItems.forEach((img, index) => {
+    img.addEventListener("click", () => showLightbox(index));
   });
-}
 
-// Next button click (if buttons exist)
-if (nextSlideBtn) {
-  nextSlideBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    stopSlideshow(); // Stop auto-slideshow on user interaction
-    currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-    showSlide(currentSlideIndex);
-    console.log('Next slide button clicked, current slide:', currentSlideIndex);
-  });
-}
+  closeBtn.addEventListener("click", closeLightbox);
+  nextBtn.addEventListener("click", showNextImage);
+  prevBtn.addEventListener("click", showPrevImage);
+});
