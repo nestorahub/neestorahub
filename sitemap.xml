@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset 
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://nestorahub.com/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://nestorahub.com/about.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://nestorahub.com/carpets.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nestorahub.com/vinyl.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nestorahub.com/parquet.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nestorahub.com/furniture.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nestorahub.com/curtains.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nestorahub.com/rugs.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nestorahub.com/book-an-appointment.html</loc>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

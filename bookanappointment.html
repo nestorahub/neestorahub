@@ -11,6 +11,19 @@
 <title>Book Your Free Appointment | Nestora Hub Dubai</title>
 
     <title>book an appointment</title>
+       <!-- Show logo in browser tab -->
+<link rel="icon" href="images/logofi.webp" type="image/png">
+
+<!-- Help Google understand your brand and logo -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Nestora Hub",
+  "url": "https://nestorahub.github.io/nestorahub/",
+  "logo": "https://nestorahub.github.io/nestorahub/images/o-logofi.webp"
+}
+</script>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -69,7 +82,7 @@
             </div>
             <div class="contact-right">
                 <h2>Send Us Your Inquiry</h2>
-               <form action="send.php" method="POST">
+           <form action="https://formspree.io/f/xrbqdkwo" method="POST">
   <div class="form-group">
     <input type="text" name="name" placeholder="Name *" required>
     <input type="email" name="email" placeholder="Email *" required>
@@ -83,8 +96,16 @@
     <input type="text" name="whatsapp" placeholder="WhatsApp *" required>
   </div>
   <textarea name="message" placeholder="Message *" required></textarea>
+  
+  <!-- Optional: You can add a subject line for the email -->
+  <input type="hidden" name="_subject" value="New Inquiry from NestoraHub Website">
+
+  <!-- Optional: Redirect to thank you page -->
+  <!-- <input type="hidden" name="_redirect" value="https://yourdomain.com/thank-you.html"> -->
+
   <button type="submit">Submit</button>
 </form>
+
 
             </div>
         </div>
