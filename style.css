@@ -13,138 +13,221 @@ body {
     color: #f4f4f4;
 }
 
-header {
-    background: #1a252f;
-    padding: 1rem 2rem;
-    border-bottom: 3px solid #d4af37;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+
+/* ────────────────────────────────────────────────────────────────────────────
+   1) HEADER STYLING (Nestora Hub + phone number + 24/7 + contact dropdown)
+──────────────────────────────────────────────────────────────────────────── */
+#top-header {
+  background: #1a252f;              /* dark background */
+  padding: 1rem 2rem;               /* space around “Nestora Hub” and contact info */
+  border-bottom: 3px solid #d4af37; /* gold underline */
+  position: fixed;                  /* stick to top */
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
 }
 
-.logo img {
-    height: 100px;
-    width: auto;
+#top-header.hidden {
+  transform: translateY(-100%);
 }
 
-.desktop-nav {
-    display: flex;
-    align-items: center;
+/* Replace existing .brand-name text styling with logo sizing */
+.brand-name {
+  display: flex;
+  align-items: center;
+  /* Remove any font‐related properties since logo is an image */
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
-.desktop-nav a {
-    color: #d4af37;
-    margin: 0 1rem;
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 500;
-    transition: color 0.3s ease;
+/* Ensure the logo scales nicely and doesn’t exceed header height */
+.brand-name img {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
-.desktop-nav a:hover {
-    color: #f0c14b;
-}
-
-.appointment-btn .btn, .desktop-btn .btn {
-    background: #d4af37;
-    color: #1a252f;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 600;
-    transition: background 0.3s ease;
-}
-
-.appointment-btn .btn:hover, .desktop-btn .btn:hover {
-    background: #f0c14b;
-}
-
-.hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 20px;
-    cursor: pointer;
-}
-
-.hamburger span {
-    width: 100%;
-    height: 3px;
-    background: #d4af37;
-    transition: all 0.3s ease;
-}
-
-.mobile-nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: #1a252f;
-    padding: 1rem;
-    z-index: 999;
-}
-
-.mobile-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.mobile-nav ul li {
-    margin: 0.5rem 0;
-}
-
-.mobile-nav ul li a {
-    color: #d4af37;
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 500;
-}
-
-.mobile-nav ul li a:hover {
-    color: #f0c14b;
-}
-
-.mobile-nav .whatsapp-icon {
-    display: block;
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.mobile-nav .whatsapp-icon img {
-    width: 40px;
-    height: auto;
-}
-
-.mobile-nav.open {
-    display: block;
-}
-
+/* Adjust for smaller screens */
 @media (max-width: 768px) {
-    .desktop-nav, .desktop-btn, .appointment-btn {
-        display: none;
-    }
-    .hamburger {
-        display: flex;
-    }
-    .mobile-nav {
-        display: none;
-    }
-    .mobile-nav.open {
-        display: block;
-    }
-    header {
-        padding: 1rem;
-    }
-    .logo {
-        margin-bottom: 1rem;
-    }
+  .brand-name img {
+    height: 80px;
+  }
+}
+
+
+/* Container to hold both buttons side by side */
+.contact-buttons {
+  display: flex;
+  align-items: center;
+}
+
+/* Base styling for both buttons */
+.btn {
+  display: inline-block;
+  padding: 4px 6px;
+  margin-left: 8px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 300;
+  border-radius: 4px;
+}
+
+/* Red “Call” button */
+.call-btn {
+  background-color: #FF3B30;
+}
+
+/* Green “WhatsApp” button */
+.whatsapp-btn {
+  background-color: #25D366;
+}
+
+/* Optional: add a hover effect */
+.call-btn:hover {
+  background-color: #E0322B;
+}
+.whatsapp-btn:hover {
+  background-color: #1DAF5D;
+}
+
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   2) NAVIGATION BAR (always visible, centered on desktop/mobile, single row)
+──────────────────────────────────────────────────────────────────────────── */
+#main-nav {
+    #main-nav,
+#main-nav > .desktop-nav {
+  overflow: visible;             /* so the child can scroll freely */
+}
+
+  position: fixed;
+  top: 0;                   /* “updatePositions()” JS will push it below the header */
+  width: 100%;
+  background: #1a252f;      /* light background to contrast header */
+  z-index: 999;
+  transition: top 0.3s ease;
+}
+
+/* a) Ensure the desktop-nav container is a single horizontal row */
+.desktop-nav {
+    font-weight: bold;
+  display: flex;
+  flex-wrap: nowrap;             /* keep everything in one row */
+  overflow-x: auto;              /* enable left/right swipes */
+  -webkit-overflow-scrolling: touch;  /* smooth on iOS */
+  scrollbar-width: none;         /* hide Firefox’s scrollbar */
+  width: 100%;                   /* ensure it can expand */
+}
+.desktop-nav::-webkit-scrollbar {
+  display: none;                 /* hide Chrome/Safari scrollbar */
+}
+                    /* remove any default margin */
+
+/* b) Hide the scrollbar in Chrome/Safari/Edge */
+.desktop-nav::-webkit-scrollbar {
+  display: none;
+}
+
+/* c) Style each nav link */
+.desktop-nav a {
+  flex: 0 0 auto;       /* no grow/shrink—use intrinsic width */
+  margin: 0 12px;        /* spacing left/right of each link */
+  padding: 8px 0;        /* vertical padding for clickability */
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 16px;
+  white-space: nowrap;    /* avoid line breaks inside each link */
+  transition: color 0.3s ease;
+}
+.desktop-nav a:hover {
+  color: #d4af37;
+}
+
+/* Optional: slightly smaller font on extremely narrow phones */
+@media (max-width: 360px) {
+  .desktop-nav a {
+    font-size: 14px;
+    margin: 0 8px;
+  }
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   3) REMOVE EXTRA BORDER‐LINES ON MOBILE & MAKE HERO VIDEO VISIBLE
+──────────────────────────────────────────────────────────────────────────── */
+/* A) On mobile (≤768px), remove the header’s bottom border so only one gold line shows */
+@media (max-width: 768px) {
+  #top-header {
+    border-bottom: none !important;
+  }
+  /* Remove any top border on the nav so it sits flush below header */
+  #main-nav {
+    border-top: none !important;
+  }
+}
+
+/* B) Force the content to sit directly under nav (no stray margins) */
+#content-wrapper {
+  margin: 0;
+  padding: 0; /* JS will dynamically set padding-top to push content below header+nav */
+}
+
+/* Ensure the hero section fills the viewport under the fixed header+nav */
+#hero-video-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;       /* make the section as tall as the viewport */
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Make the <video> fill its parent completely */
+#hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* crop/squeeze to cover entire area */
+  z-index: 0;
+}
+
+/* Ensure the overlay still sits on top */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0 20px;
+}
+.hero-overlay .quote-btn {
+  background-color: #d4af37;  /* gold button */
+  color: #1a252f;             /* dark text */
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.hero-overlay .quote-btn:hover {
+  background-color: #b5952c;  /* slightly darker gold on hover */
 }
 
 #slideshow {
@@ -2124,34 +2207,64 @@ header.hidden {
     font-size: 0.95rem;
   }
 }
-.floating-buttons {
+/* Float Buttons - Only for Floating WhatsApp & Call */
+.floating-support-buttons .whatsapp-float,
+.floating-support-buttons .call-float {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
   z-index: 9999;
 }
 
-.float-btn {
-  background: #d4af37;
+.floating-support-buttons .whatsapp-float {
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.floating-support-buttons .call-float {
+  bottom: 20px;
+  right: 20px;
+}
+
+.floating-support-buttons .float-btn {
+  background: none; /* or #25D366 */
   border-radius: 50%;
-  padding: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
+  box-shadow: none;
+  border: none;
+  outline: none;
 }
 
-.float-btn img {
-  width: 24px;
-  height: 24px;
+
+
+
+
+/* Icons – Clean and sharp */
+.floating-support-buttons .float-btn img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
 }
 
+/* Chat Text Bubble */
+.floating-support-buttons .chat-text {
+  background: white;
+  color: #333;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Vibration Animation (optional) */
 @keyframes vibrate {
   0% { transform: translate(0); }
   20% { transform: translate(-2px, 2px); }
@@ -2161,9 +2274,18 @@ header.hidden {
   100% { transform: translate(0); }
 }
 
-.vibrate {
+.floating-support-buttons .vibrate {
   animation: vibrate 0.3s ease-in-out 2;
 }
+
+/* Fade for chat text */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+
+
 /* ===== Gallery Grid ===== */
 .gallery {
   display: grid;
